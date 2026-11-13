@@ -17,6 +17,12 @@ import { db } from "~/db";
 import { eq } from "drizzle-orm";
 import { formatPrice } from "~/lib/utils";
 import { listRefundRequestsForBuyer } from "~/lib/refunds.server";
+import { teamMembers, TeamMemberRole } from "~/db/schema";
+import { and } from "drizzle-orm";
+import { useSearchParams } from "react-router";
+// PROTOTYPE — throwaway variants for "How the notification preferences page looks"
+import { PREFERENCE_VARIANTS } from "~/components/notification-preferences.prototype";
+import { PrototypeSwitcher } from "~/components/prototype-switcher";
 
 const settingsSchema = z.object({
   name: z.string().trim().min(1, "Name cannot be empty."),
@@ -60,6 +66,17 @@ export async function loader({ request }: Route.LoaderArgs) {
       role: currentUser.role,
     },
     refundRequests,
+    // PROTOTYPE
+    isTeamAdmin: !!db
+      .select()
+      .from(teamMembers)
+      .where(
+        and(
+          eq(teamMembers.userId, currentUserId),
+          eq(teamMembers.role, TeamMemberRole.Admin)
+        )
+      )
+      .get(),
   };
 }
 
@@ -98,7 +115,12 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function Settings({ loaderData }: Route.ComponentProps) {
-  const { user, refundRequests } = loaderData;
+  const { user, refundRequests, isTeamAdmin } = loaderData;
+  const [searchParams] = useSearchParams();
+  const PreferencesVariant = (
+    PREFERENCE_VARIANTS.find((v) => v.key === searchParams.get("variant")) ??
+    PREFERENCE_VARIANTS[0]
+  ).Component;
   const openCount = refundRequests.filter(
     (refundRequest) => refundRequest.status === RefundStatus.Open
   ).length;
@@ -235,6 +257,10 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
           </CardContent>
         </Card>
       )}
+
+      {/* PROTOTYPE */}
+      <PreferencesVariant viewer={{ role: user.role, isTeamAdmin }} />
+      <PrototypeSwitcher variants={PREFERENCE_VARIANTS} />
     </div>
   );
 }
