@@ -47,7 +47,11 @@ export default [
     route("settings", "routes/settings.tsx"),
     route("team", "routes/team.tsx"),
     route("redeem/:code", "routes/redeem.$code.tsx"),
+    // PROTOTYPE routes for "How the Feed, push and email look"
+    route("notifications", "routes/notifications.prototype.tsx"),
+    route("prototype/notifications", "routes/prototype.notifications.tsx"),
   ]),
+  route("firebase-messaging-sw.js", "routes/firebase-messaging-sw.prototype.ts"),
   route("signup", "routes/signup.tsx"),
   route("login", "routes/login.tsx"),
   route("api/switch-user", "routes/api.switch-user.ts"),

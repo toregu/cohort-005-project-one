@@ -1,4 +1,12 @@
-import { Outlet } from "react-router";
+import { Outlet, useSearchParams } from "react-router";
+import {
+  NotificationsProvider,
+  SidebarStripBell,
+  FeedNavItem,
+  TopBar,
+} from "~/components/notifications.prototype";
+import { PrototypeSwitcher } from "~/components/prototype-switcher";
+import { knockClientConfig, knockUserId, userToken } from "~/lib/notify.prototype.server";
 import type { Route } from "./+types/layout.app";
 import { Sidebar } from "~/components/sidebar";
 import { DevUI } from "~/components/dev-ui";
@@ -198,7 +206,19 @@ export async function loader({ request }: Route.LoaderArgs) {
       })
     : [];
 
+  // PROTOTYPE: Knock Feed config for the signed-in user.
+  const knockConfig = knockClientConfig();
+  const knock =
+    knockConfig && currentUserId
+      ? {
+          ...knockConfig,
+          userId: knockUserId(currentUserId),
+          userToken: await userToken(currentUserId),
+        }
+      : null;
+
   return {
+    knock,
     users: users.map((u) => ({ id: u.id, name: u.name, role: u.role })),
     currentUser: currentUser
       ? {
@@ -225,16 +245,23 @@ export default function AppLayout({ loaderData }: Route.ComponentProps) {
     countryTierInfo,
     countries,
     isTeamAdmin: userIsTeamAdmin,
+    knock,
   } = loaderData;
+  const [params] = useSearchParams();
+  const variant = params.get("variant") ?? "A";
 
   return (
+    <NotificationsProvider config={knock}>
     <div className="flex h-screen overflow-hidden">
       <Sidebar
         currentUser={currentUser}
         recentCourses={recentCourses}
         isTeamAdmin={userIsTeamAdmin}
+        stripSlot={knock && variant === "A" ? <SidebarStripBell /> : undefined}
+        navSlot={knock && variant === "B" ? <FeedNavItem /> : undefined}
       />
       <main className="flex-1 overflow-y-auto">
+        {knock && variant === "C" && <TopBar />}
         <Outlet />
       </main>
       <DevUI
@@ -245,6 +272,16 @@ export default function AppLayout({ loaderData }: Route.ComponentProps) {
         countries={countries}
       />
       <Toaster position="bottom-right" richColors closeButton />
+      {knock && (
+        <PrototypeSwitcher
+          variants={[
+            { key: "A", name: "Bell in sidebar strip" },
+            { key: "B", name: "Sidebar nav item + Feed page" },
+            { key: "C", name: "Top bar + popover + See all" },
+          ]}
+        />
+      )}
     </div>
+    </NotificationsProvider>
   );
 }

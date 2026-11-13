@@ -1,0 +1,36 @@
+{
+  "name": "Reply to your Comment",
+  "steps": [
+    {
+      "type": "channel",
+      "template": {
+        "action_url": "{{ data.url }}",
+        "markdown_body@": "in_app_feed_1/markdown_body.md"
+      },
+      "ref": "in_app_feed_1",
+      "channel_type": "in_app_feed",
+      "channel_key": "knock"
+    },
+    {
+      "type": "channel",
+      "template": {
+        "title": "{{ actor.name }} replied to you",
+        "settings": {
+          "delivery_type": "content",
+          "payload_overrides@": "push_1/settings/payload_overrides.json"
+        },
+        "text_body@": "push_1/text_body.txt"
+      },
+      "ref": "push_1",
+      "channel_type": "push",
+      "channel_key": "fcm"
+    }
+  ],
+  "trigger_frequency": "every_trigger",
+  "__readonly": {
+    "key": "comment-reply",
+    "active": true,
+    "valid": true
+  },
+  "$schema": "https://schemas.knock.app/cli/workflow.json"
+}

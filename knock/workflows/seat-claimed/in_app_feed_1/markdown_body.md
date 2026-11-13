@@ -1,0 +1,1 @@
+**{{ actor.name }}** claimed a Seat on your *{{ data.course_title }}* Team Licence ({{ data.seats_claimed }} of {{ data.seats_total }} claimed).

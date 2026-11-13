@@ -1,0 +1,91 @@
+/* PROTOTYPE — Knock Feed themed to Cadence (toregu/cohort-005-project-one#7).
+ *
+ * Approach under test: always give Knock colorMode="light" (its --dark classes
+ * hard-code greys like #2e2f34) and point every --rnf-* variable at Cadence's
+ * own tokens. The tokens already flip under .dark, so one mapping covers both
+ * modes.
+ *
+ * Loaded after Knock's stylesheet so these :root values win.
+ */
+
+:root {
+  --rnf-font-family-sanserif: var(--font-sans);
+  --rnf-border-radius-sm: calc(var(--radius) - 4px);
+  --rnf-border-radius-md: calc(var(--radius) - 2px);
+  --rnf-border-radius-lg: var(--radius);
+
+  --rnf-color-gray-900: var(--foreground);
+  --rnf-color-gray-800: var(--foreground);
+  --rnf-color-gray-600: var(--muted-foreground);
+  --rnf-color-gray-500: var(--muted-foreground);
+  --rnf-color-gray-400: var(--muted-foreground);
+  --rnf-color-gray-300: var(--border);
+  --rnf-color-gray-200: var(--border);
+  --rnf-color-gray-100: var(--muted);
+  --rnf-color-white: var(--popover);
+  --rnf-color-brand-500: var(--primary);
+  --rnf-color-brand-700: var(--primary);
+  --rnf-color-brand-900: var(--primary);
+
+  --rnf-notification-feed-popover-bg-color: var(--popover);
+  --rnf-notification-feed-popover-border-radius: var(--radius);
+  --rnf-notification-feed-popover-shadow: drop-shadow(0 8px 24px rgb(0 0 0 / 0.18));
+  /* Taller + denser (decided in the walkthrough): 6–8 Notifications fit. */
+  --rnf-notification-feed-popover-height: min(70vh, 640px);
+  --rnf-notification-feed-popover-min-w: 360px;
+  --rnf-notification-feed-popover-z-index: 60;
+
+  --rnf-notification-cell-content-color: var(--popover-foreground);
+  --rnf-notification-cell-border-bottom-color: var(--border);
+  --rnf-notification-cell-active-bg-color: var(--accent);
+  --rnf-message-cell-hover-bg-color: var(--accent);
+  --rnf-notification-cell-unread-dot-bg-color: var(--primary);
+  --rnf-notification-cell-unread-dot-border-color: var(--primary);
+  --rnf-notification-cell-padding: 10px 14px 10px 18px;
+  --rnf-notification-cell-content-font-size: 13px;
+  --rnf-notification-cell-content-line-height: 1.4;
+  --rnf-avatar-size: 28px;
+
+  --rnf-avatar-bg-color: var(--muted);
+  --rnf-avatar-initials-color: var(--muted-foreground);
+  --rnf-avatar-initials-font-size: 12px;
+
+  --rnf-button-primary-bg-color: var(--primary);
+  --rnf-button-primary-border-color: var(--primary);
+  --rnf-button-primary-hover-bg-color: var(--primary);
+  --rnf-button-primary-text-color: var(--primary-foreground);
+  --rnf-button-secondary-bg-color: var(--secondary);
+  --rnf-button-secondary-border-color: var(--border);
+  --rnf-button-secondary-hover-bg-color: var(--accent);
+  --rnf-button-secondary-text-color: var(--secondary-foreground);
+
+  --rnf-unseen-badge-bg-color: var(--destructive);
+  --rnf-notification-icon-button-size: 32px;
+}
+
+.rnf-notification-feed {
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+}
+
+.rnf-notification-feed__header {
+  border-bottom: 1px solid var(--border);
+}
+
+.rnf-notification-cell__content strong {
+  font-weight: 600;
+}
+
+.rnf-notification-cell__timestamp {
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.rnf-notification-icon-button {
+  color: inherit;
+}
+
+/* A full-page Feed (variants B and C) drops the popover chrome. */
+.cadence-feed-page .rnf-notification-feed {
+  background: transparent;
+}

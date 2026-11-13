@@ -1,0 +1,1 @@
+{{ data.amount }} for {{ data.course_title }} is on its way back to you.

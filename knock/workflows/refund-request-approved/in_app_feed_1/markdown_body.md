@@ -1,0 +1,1 @@
+**Refund approved** for *{{ data.course_title }}*. {{ data.amount }} is on its way back to you.

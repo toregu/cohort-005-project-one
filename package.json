@@ -18,10 +18,13 @@
     "db:generate": "drizzle-kit generate",
     "db:seed": "tsx scripts/seed.ts",
     "db:migrate": "drizzle-kit migrate",
-    "loc": "git ls-files | grep -vE '(lock|.db|_snapshot.json)' | xargs wc -l"
+    "loc": "git ls-files | grep -vE '(lock|.db|_snapshot.json)' | xargs wc -l",
+    "prototype:notifications": "node --env-file=.env node_modules/@react-router/dev/bin.cjs dev"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
+    "@knocklabs/node": "^1.41.1",
+    "@knocklabs/react": "^0.15.1",
     "@monaco-editor/react": "^4.7.0",
     "@react-router/node": "8.3.0",
     "@react-router/serve": "8.3.0",
@@ -30,6 +33,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",
+    "firebase": "^13.3.0",
     "isbot": "^5.1.31",
     "lucide-react": "^0.563.0",
     "marked": "^17.0.1",
@@ -47,6 +51,7 @@
   "devDependencies": {
     "@ai-hero/sandcastle": "^0.14.0",
     "@clack/prompts": "^1.7.0",
+    "@knocklabs/cli": "^1.6.2",
     "@react-router/dev": "8.3.0",
     "@tailwindcss/vite": "^4.1.13",
     "@types/better-sqlite3": "^7.6.13",

@@ -1,0 +1,1 @@
+Your refund request for *{{ data.course_title }}* was **declined**. You keep your access to the course.
